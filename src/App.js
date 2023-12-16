@@ -1,46 +1,46 @@
-import { useEffect, useRef, useState } from "react";
-import StarRating from "./StarRating";
+import { useEffect, useRef, useState } from 'react';
+import StarRating from './StarRating';
 const tempMovieData = [
   {
-    imdbID: "tt1375666",
-    Title: "Inception",
-    Year: "2010",
+    imdbID: 'tt1375666',
+    Title: 'Inception',
+    Year: '2010',
     Poster:
-      "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+      'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg',
   },
   {
-    imdbID: "tt0133093",
-    Title: "The Matrix",
-    Year: "1999",
+    imdbID: 'tt0133093',
+    Title: 'The Matrix',
+    Year: '1999',
     Poster:
-      "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+      'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg',
   },
   {
-    imdbID: "tt6751668",
-    Title: "Parasite",
-    Year: "2019",
+    imdbID: 'tt6751668',
+    Title: 'Parasite',
+    Year: '2019',
     Poster:
-      "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
+      'https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg',
   },
 ];
 
 const tempWatchedData = [
   {
-    imdbID: "tt1375666",
-    Title: "Inception",
-    Year: "2010",
+    imdbID: 'tt1375666',
+    Title: 'Inception',
+    Year: '2010',
     Poster:
-      "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+      'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg',
     runtime: 148,
     imdbRating: 8.8,
     userRating: 10,
   },
   {
-    imdbID: "tt0088763",
-    Title: "Back to the Future",
-    Year: "1985",
+    imdbID: 'tt0088763',
+    Title: 'Back to the Future',
+    Year: '1985',
     Poster:
-      "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+      'https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
     runtime: 116,
     imdbRating: 8.5,
     userRating: 9,
@@ -50,19 +50,19 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const key = "a3aa372c";
+const key = 'a3aa372c';
 export default function App() {
   // Structural component only used for layout of the application.
   const [movies, setMovies] = useState([]);
   const [isloading, setloading] = useState(false);
-  const [error, seterror] = useState("");
-  const [selectedId, setSelectedId] = useState("");
+  const [error, seterror] = useState('');
+  const [selectedId, setSelectedId] = useState('');
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   // const [watched, setWatched] = useState([]);
   const [watched, setWatched] = useState(function () {
     //This function only executed on initial render not on subsequent rerenders.Only pass in a function that react can then call later.
-    const stored = localStorage.getItem("watched");
+    const stored = localStorage.getItem('watched');
     return JSON.parse(stored);
   });
 
@@ -76,20 +76,21 @@ export default function App() {
       async function fetchmovies() {
         try {
           setloading(true);
-          seterror("");
+          seterror('');
           const res = await fetch(
             `http://www.omdbapi.com/?apikey=${key}&s=${query}`, // as soon as a request is canceled Javascript sees it as an error.as the fetch request is canceled it will throw an error
             { signal: controller.signal }
           );
 
-          if (!res.ok) throw new Error("Something went wrong");
+          if (!res.ok) throw new Error('Something went wrong');
           const data = await res.json();
-          if (data.Response === "False") throw new Error("Movie not found");
+          console.log(data);
+          if (data.Response === 'False') throw new Error('Movie not found');
           setMovies(data.Search);
-          seterror("");
+          seterror('');
           // console.log(data.Search);
         } catch (err) {
-          if (err.name !== "AbortError") {
+          if (err.name !== 'AbortError') {
             seterror(err.message);
           }
         } finally {
@@ -98,7 +99,7 @@ export default function App() {
       }
       if (query.length < 3) {
         setMovies([]);
-        seterror("");
+        seterror('');
         return; //When the application starts the user has not searched a movie so do not want to show movie not found error.
       }
       setSelectedId(null);
@@ -130,7 +131,7 @@ export default function App() {
   useEffect(
     function () {
       //local storage to store the list of watched movies so that each time we reload the watched movies persist.
-      localStorage.setItem("watched", JSON.stringify(watched)); //local storage is simply a key-value pair storage that is available in browser and where we can store some data for each domain.
+      localStorage.setItem('watched', JSON.stringify(watched)); //local storage is simply a key-value pair storage that is available in browser and where we can store some data for each domain.
       //value should be string.
     },
     [watched]
@@ -186,21 +187,21 @@ export default function App() {
   );
 }
 function Loader() {
-  return <p className="loader">Loading ...</p>;
+  return <p className='loader'>Loading ...</p>;
 }
 function ErrorLoad({ message }) {
-  return <p className="error">{message}</p>;
+  return <p className='error'>{message}</p>;
 }
 function Navbar({ children }) {
   // Structural component only used for layout of the application.
   // It becomes easy  if we divide the componenets into small componenets  like now we can easily observe that navbar contains Logo Search and NumResults
-  return <nav className="nav-bar">{children}</nav>;
+  return <nav className='nav-bar'>{children}</nav>;
 }
 function Logo() {
   //stateless component
   return (
-    <div className="logo">
-      <span role="img">🍿</span>
+    <div className='logo'>
+      <span role='img'>🍿</span>
       <h1>usePopcorn</h1>
     </div>
   );
@@ -208,7 +209,7 @@ function Logo() {
 function NumResults({ movies }) {
   //stateless component
   return (
-    <p className="num-results">
+    <p className='num-results'>
       Found <strong>{movies.length}</strong> results
     </p>
   );
@@ -222,13 +223,13 @@ function Search({ query, setQuery }) {
     function () {
       function callback(e) {
         if (document.activeElement === inputEl.current) return; //So that the text does not get deleted when input field is already focused.
-        if (e.code === "Enter") {
+        if (e.code === 'Enter') {
           inputEl.current.focus();
-          setQuery("");
+          setQuery('');
         }
       }
-      document.addEventListener("keydown", callback);
-      return () => document.addEventListener("keydown", callback);
+      document.addEventListener('keydown', callback);
+      return () => document.addEventListener('keydown', callback);
     },
     [setQuery]
   ); //setquery is a prop so it needs to be declared in the dependency array.This function is not going to change but still we need it in the dependency array.
@@ -238,9 +239,9 @@ function Search({ query, setQuery }) {
   // }, []);
   return (
     <input
-      className="search"
-      type="text"
-      placeholder="Search movies..."
+      className='search'
+      type='text'
+      placeholder='Search movies...'
       value={query}
       onChange={(e) => setQuery(e.target.value)}
       ref={inputEl}
@@ -270,14 +271,14 @@ function MoveDetails({ selectedId, setSelectedId, handleAddWatched, watched }) {
   useEffect(
     function () {
       function callback(e) {
-        if (e.code === "Escape") {
+        if (e.code === 'Escape') {
           onclosemovie();
-          console.log("Closing"); //each time effect is executed  it will add one more event listener to the document.
+          console.log('Closing'); //each time effect is executed  it will add one more event listener to the document.
         }
       }
-      document.addEventListener("keydown", callback);
+      document.addEventListener('keydown', callback);
       return function () {
-        document.removeEventListener("keydown", callback);
+        document.removeEventListener('keydown', callback);
       };
     },
     [onclosemovie]
@@ -329,7 +330,7 @@ function MoveDetails({ selectedId, setSelectedId, handleAddWatched, watched }) {
       year,
       poster,
       imdbRating: Number(imdbRating),
-      runtime: Number(runtime.split(" ").at(0)),
+      runtime: Number(runtime.split(' ').at(0)),
       userRating,
       countRatingDecision: countvar.current,
     };
@@ -343,7 +344,7 @@ function MoveDetails({ selectedId, setSelectedId, handleAddWatched, watched }) {
       if (!title) return;
       document.title = `Movie | ${title}`;
       return function () {
-        document.title = "usepopcorn";
+        document.title = 'usepopcorn';
         console.log(`Cleanup function for ${title}`);
       }; //function executed when component is unmounted.But it remembers the title because of closure effect in javascript which states that function will remember all the variables that were present at the time and the place that the function was created.cleanup function was created by the time this effect was first created.It runs after each re-render.
       // with empty dependency array title gives undefined because movie data fetched from api takes time till then moviedetail state is undefined.
@@ -351,17 +352,17 @@ function MoveDetails({ selectedId, setSelectedId, handleAddWatched, watched }) {
     [title]
   );
   return (
-    <p className="details">
+    <div className='details'>
       {isloading ? (
         <Loader />
       ) : (
         <>
           <header>
-            <button className="btn-back" onClick={() => setSelectedId(null)}>
+            <button className='btn-back' onClick={() => setSelectedId(null)}>
               &larr;
             </button>
             <img src={poster} alt={`Poster of ${title}`} />
-            <div className="details-overview">
+            <div className='details-overview'>
               <h2>{title}</h2>
               <p>
                 {released} &bull; {runtime}
@@ -374,13 +375,13 @@ function MoveDetails({ selectedId, setSelectedId, handleAddWatched, watched }) {
             </div>
           </header>
           <section>
-            <div className="rating">
+            <div className='rating'>
               {/* <p>{avgrating}</p> */}
               {!iswatched ? (
                 <>
                   <StarRating setuserRating={setuserRating} />
                   {userRating > 0 && (
-                    <button className="btn-add" onClick={handleAdd}>
+                    <button className='btn-add' onClick={handleAdd}>
                       + Add To List
                     </button>
                   )}
@@ -398,19 +399,19 @@ function MoveDetails({ selectedId, setSelectedId, handleAddWatched, watched }) {
           </section>
         </>
       )}
-    </p>
+    </div>
   );
 }
 function MainComp({ children }) {
-  return <main className="main">{children}</main>;
+  return <main className='main'>{children}</main>;
 }
 function Box({ children }) {
   const [isOpen, setIsOpen] = useState(true);
   //stateful component
   return (
-    <div className="box">
-      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
-        {isOpen ? "-" : "+"}
+    <div className='box'>
+      <button className='btn-toggle' onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? '-' : '+'}
       </button>
       {isOpen && children}
     </div>
@@ -419,7 +420,7 @@ function Box({ children }) {
 function MovieList({ movies, setSelectedId }) {
   //stateful component.List of all movies which appeared from search.
   return (
-    <ul className="list list-movies">
+    <ul className='list list-movies'>
       {movies?.map((movie) => (
         <Movie movie={movie} key={movie.imdbID} setSelectedId={setSelectedId} />
       ))}
@@ -472,7 +473,7 @@ function WatchedSummary({ watched }) {
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
   return (
-    <div className="summary">
+    <div className='summary'>
       <h2>Movies you watched</h2>
       <div>
         <p>
@@ -498,12 +499,11 @@ function WatchedSummary({ watched }) {
 function WatchedList({ watched, handleDeleteWatched }) {
   //Presentational component.List of all watched movies
   return (
-    <ul className="list">
+    <ul className='list'>
       {watched.map((movie) => (
         <WatchedMovie
-         key={movie.imdbID}
+          key={movie.imdbId}
           movie={movie}
-         
           handleDeleteWatched={handleDeleteWatched}
         />
       ))}
@@ -512,6 +512,7 @@ function WatchedList({ watched, handleDeleteWatched }) {
 }
 function WatchedMovie({ movie, handleDeleteWatched }) {
   //Presentational component.Individual component of watched movie.
+
   return (
     <li>
       <img src={movie.poster} alt={`${movie.title} poster`} />
@@ -530,7 +531,7 @@ function WatchedMovie({ movie, handleDeleteWatched }) {
           <span>{movie.runtime} min</span>
         </p>
         <button
-          className="btn-delete"
+          className='btn-delete'
           onClick={() => handleDeleteWatched(movie.imdbId)}
         >
           X
