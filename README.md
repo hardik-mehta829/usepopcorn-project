@@ -1,29 +1,12 @@
+A project to search movies and rate them and also store them in your watchlist .Build using react.
+It uses **omdb api** to fetch data about movies and render them in the components
 
 
-## Available Scripts
+In the project directory, you can run: **npm start**  to start the project locally in your web browser at http://localhost:3000
 
-In the project directory, you can run:
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+ Deployment Link :https://movie-rating-app.onrender.com
 
 
 
 
-
-
-
-
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
