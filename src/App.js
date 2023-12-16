@@ -63,7 +63,7 @@ export default function App() {
   const [watched, setWatched] = useState(function () {
     //This function only executed on initial render not on subsequent rerenders.Only pass in a function that react can then call later.
     const stored = localStorage.getItem('watched');
-    return JSON.parse(stored);
+    return JSON.parse(stored) ? JSON.parse(stored) : [];
   });
 
   //The setloading is executed once and the batch is completed and isloading set to true and rendered but when await fetch returns a promise it is re-rendered and the batch is emptied and recreated.
