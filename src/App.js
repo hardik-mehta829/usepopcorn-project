@@ -78,7 +78,7 @@ export default function App() {
           setloading(true);
           seterror('');
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${key}&s=${query}`, // as soon as a request is canceled Javascript sees it as an error.as the fetch request is canceled it will throw an error
+            `https://www.omdbapi.com/?apikey=${key}&s=${query}`, // as soon as a request is canceled Javascript sees it as an error.as the fetch request is canceled it will throw an error
             { signal: controller.signal }
           );
 
