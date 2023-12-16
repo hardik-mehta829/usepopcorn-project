@@ -501,8 +501,9 @@ function WatchedList({ watched, handleDeleteWatched }) {
     <ul className="list">
       {watched.map((movie) => (
         <WatchedMovie
+         key={movie.imdbID}
           movie={movie}
-          key={movie.imdbID}
+         
           handleDeleteWatched={handleDeleteWatched}
         />
       ))}
